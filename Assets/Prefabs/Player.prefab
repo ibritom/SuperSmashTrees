@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3608184197193592612}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Fighters
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,7 +58,7 @@ MonoBehaviour:
   HitBoxRaidus: 0.5
   Fighters:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   HitForce: 100
   ForcePushForce: 500
   movementInput: {x: 0, y: 0}

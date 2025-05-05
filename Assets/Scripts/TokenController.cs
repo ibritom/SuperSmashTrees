@@ -2,8 +2,21 @@ using UnityEngine;
 
 public class TokenController : MonoBehaviour 
 {
-    private void OnTriggerEnter2D(Collider2D other)
+    public int numeroToken;
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-	Destroy(gameObject);
+        if (collision.CompareTag("Fighters"))
+        {
+            //BinaryTree tree = collision.GetComponent<BinaryTree>();
+            //if (tree != null)
+            //{
+            //    tree.Insertar(TokenValue);
+            //    Debug.Log("Token recogido. Insertado valor: " + TokenValue);
+            //}
+        } else
+        {
+            //Debug.LogWarning("Jugador no tiene un árbol binario adjunto.");
+        }
+        Destroy(gameObject); // Destruir el token
     }
 }
