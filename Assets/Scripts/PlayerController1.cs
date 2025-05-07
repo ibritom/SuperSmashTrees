@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
     public float HitForce;
     private bool hasHit = false;
 
+    // Variables para el shield
+    private GameObject shieldVisual;
+
     public float ForcePushForce;
 
     public Vector2 movementInput;
@@ -127,11 +130,13 @@ public class PlayerController : MonoBehaviour
     public void ShieldUp()
     {
         gameObject.GetComponent<Rigidbody2D>().mass = 100f;
+        shieldVisual.SetActive(true);
         canJump = false;
     }
     public void ShieldDown()
     {
         gameObject.GetComponent<Rigidbody2D>().mass = 1f;
+        shieldVisual.SetActive(false);
         canJump = true;
     }
 
@@ -224,6 +229,22 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
             Debug.Log("Jugador destruido");
         }
+    }
+
+    // Start
+    void Start()
+    {
+        shieldVisual = new GameObject("ShieldVisual");
+        shieldVisual.transform.SetParent(transform);
+        shieldVisual.transform.localPosition = Vector3.zero;
+        shieldVisual.transform.localScale = new Vector3(4.5f, 4.5f, 4.5f); // Aumenta el tamaño 2x
+
+        var sr = shieldVisual.AddComponent<SpriteRenderer>();
+        sr.sprite = Resources.Load<Sprite>("circulo");
+        sr.color = new Color(1f, 0f, 0f, 0.5f); // Rojo con opacidad
+        sr.sortingOrder = 10;
+
+        shieldVisual.SetActive(false);
     }
 
     // Update
