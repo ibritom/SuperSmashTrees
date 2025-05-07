@@ -9,6 +9,7 @@ TagManager:
   - floor
   - token
   - Fighters
+  - terrain
   layers:
   - Default
   - TransparentFX
