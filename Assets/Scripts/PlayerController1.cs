@@ -70,9 +70,18 @@ public class PlayerController : MonoBehaviour
     // Funcion para revisar si el jugador se esta cayendo sin haber saltado previamente
     public void CheckFallingNoJump()
     {
-        if (canJump && IsFalling())
+        int terrainLayer = LayerMask.GetMask("terrain");
+        int floorLayer = LayerMask.GetMask("floor");
+        bool isTouchingTerrain = GetComponent<Collider2D>().IsTouchingLayers(terrainLayer);
+        bool isTouchingFloor = GetComponent<Collider2D>().IsTouchingLayers(floorLayer);
+
+        if (!isTouchingTerrain && !isTouchingFloor && IsFalling())
         {
             gameObject.GetComponent<Animator>().SetBool("IsFalling", true);
+        }
+        else
+        {
+            gameObject.GetComponent<Animator>().SetBool("IsFalling", false);
         }
     }
 
@@ -86,6 +95,7 @@ public class PlayerController : MonoBehaviour
         foreach (Collider2D FighterGameObject in fighters)
         {
             if (FighterGameObject.gameObject == this.gameObject) continue; // Evitar pegarse con uno mismo
+            if (FighterGameObject.gameObject.layer == LayerMask.NameToLayer("terrain")) continue;
             Debug.Log("Hit Fighter");
             Rigidbody2D FighterRb = FighterGameObject.GetComponent<Rigidbody2D>();
             Animator FighterAnim = FighterGameObject.GetComponent<Animator>();
@@ -107,6 +117,7 @@ public class PlayerController : MonoBehaviour
     }
     private void ResetHit()
     {
+        Animator FighterAnim = gameObject.GetComponent<Animator>();
         hasHit = false;
     }
     private System.Collections.IEnumerator ResetHurt(Animator anim, float delay)
@@ -218,7 +229,7 @@ public class PlayerController : MonoBehaviour
     // Colision en el suelo y destruir el jugador cuando toca el DeathPlane
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.tag == "floor")
+        if (collision.transform.tag == "floor" || IsFalling() == false)
         {
             canJump = true;
             gameObject.GetComponent<Animator>().SetBool("IsJumping", false);
