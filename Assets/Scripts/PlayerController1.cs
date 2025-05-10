@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
 
     // Variable para las hitboxes
     public GameObject HitBox;
-    public float HitBoxRaidus;
+    public float HitBoxRadius;
     public LayerMask Fighters;
     public float HitForce;
     private bool hasHit = false;
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
         if (hasHit) return; // evita m�ltiples golpes
         hasHit = true;
         Debug.Log("Attacking");
-        Collider2D[] fighters = Physics2D.OverlapCircleAll(HitBox.transform.position, HitBoxRaidus, Fighters);
+        Collider2D[] fighters = Physics2D.OverlapCircleAll(HitBox.transform.position, HitBoxRadius, Fighters);
         foreach (Collider2D FighterGameObject in fighters)
         {
             if (FighterGameObject.gameObject == this.gameObject) continue; // Evitar pegarse con uno mismo
@@ -99,22 +99,42 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Hit Fighter");
             Rigidbody2D FighterRb = FighterGameObject.GetComponent<Rigidbody2D>();
             Animator FighterAnim = FighterGameObject.GetComponent<Animator>();
-
+    
             if (FighterRb != null)
             {
                 Vector2 direction = (FighterGameObject.transform.position - transform.position).normalized;
                 FighterRb.AddForce(direction * HitForce, ForceMode2D.Impulse);
-            }
+           }
             if (FighterAnim != null)
             {
                 FighterAnim.SetBool("IsHurt", true);
                 // Opcional: reiniciar el bool después de cierto tiempo
                 StartCoroutine(ResetHurt(FighterAnim, 0.3f));
             }
-
         }
         Invoke(nameof(ResetHit), 0.3f); // Ajusta duraci�n seg�n tu animaci�n
     }
+    //public void Attack()
+    //{
+    //    if (hasHit) return; // evita m�ltiples golpes
+    //    hasHit = true;
+    //    Debug.Log("Attacking");
+    //    gameObject.GetComponent<Animator>().SetBool("IsAttacking", true);
+    //    Collider2D[] fighters = Physics2D.OverlapCircleAll(HitBox.transform.position, HitBoxRadius, Fighters);
+    //    foreach (Collider2D FighterGameObject in fighters)
+    //    {
+    //        if (FighterGameObject.gameObject == this.gameObject) continue; // Evitar pegarse con uno mismo
+    //        Debug.Log("Hit Fighter");
+    //        Rigidbody2D FighterRb = FighterGameObject.GetComponent<Rigidbody2D>();
+
+    //        if (FighterRb != null)
+    //        {
+    //            Vector2 direction = (FighterGameObject.transform.position - transform.position).normalized;
+    //            FighterRb.AddForce(direction * HitForce, ForceMode2D.Impulse);
+    //        }
+    //    }
+    //    Invoke(nameof(ResetHit), 0.3f); // Ajusta duraci�n seg�n tu animaci�n
+    //}
     private void ResetHit()
     {
         Animator FighterAnim = gameObject.GetComponent<Animator>();
@@ -134,7 +154,7 @@ public class PlayerController : MonoBehaviour
     // Renderizar la hitbox para poder verlo en el editor
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(HitBox.transform.position, HitBoxRaidus);
+        Gizmos.DrawWireSphere(HitBox.transform.position, HitBoxRadius);
     }
 
     // Funciones para el shield, todav�a no he implementado hacerlo un movimiento especial
@@ -165,7 +185,7 @@ public class PlayerController : MonoBehaviour
         hasHit = true;
         Debug.Log("Attacking");
         gameObject.GetComponent<Animator>().SetBool("IsAttacking", true);
-        Collider2D[] fighters = Physics2D.OverlapCircleAll(HitBox.transform.position, HitBoxRaidus, Fighters);
+        Collider2D[] fighters = Physics2D.OverlapCircleAll(HitBox.transform.position, HitBoxRadius, Fighters);
         foreach (Collider2D FighterGameObject in fighters)
         {
             if (FighterGameObject.gameObject == this.gameObject) continue; // Evitar pegarse con uno mismo

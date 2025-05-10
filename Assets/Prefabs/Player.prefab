@@ -55,10 +55,10 @@ MonoBehaviour:
   JumpForce: 8000
   AirJumpForce: 25000
   HitBox: {fileID: 8051654454174753439}
-  HitBoxRaidus: 0.5
+  HitBoxRadius: 1
   Fighters:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   HitForce: 100
   ForcePushForce: 500
   movementInput: {x: 0, y: 0}
