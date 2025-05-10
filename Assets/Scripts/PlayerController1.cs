@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
@@ -32,6 +34,9 @@ public class PlayerController : MonoBehaviour
     public float ForcePushForce;
 
     public Vector2 movementInput;
+
+    // Donde el jugador va a respawnear
+    public Vector3 respawnPosition = new Vector3(0, 10, 0);
 
     private void Awake()
     {
@@ -114,27 +119,6 @@ public class PlayerController : MonoBehaviour
         }
         Invoke(nameof(ResetHit), 0.3f); // Ajusta duraci�n seg�n tu animaci�n
     }
-    //public void Attack()
-    //{
-    //    if (hasHit) return; // evita m�ltiples golpes
-    //    hasHit = true;
-    //    Debug.Log("Attacking");
-    //    gameObject.GetComponent<Animator>().SetBool("IsAttacking", true);
-    //    Collider2D[] fighters = Physics2D.OverlapCircleAll(HitBox.transform.position, HitBoxRadius, Fighters);
-    //    foreach (Collider2D FighterGameObject in fighters)
-    //    {
-    //        if (FighterGameObject.gameObject == this.gameObject) continue; // Evitar pegarse con uno mismo
-    //        Debug.Log("Hit Fighter");
-    //        Rigidbody2D FighterRb = FighterGameObject.GetComponent<Rigidbody2D>();
-
-    //        if (FighterRb != null)
-    //        {
-    //            Vector2 direction = (FighterGameObject.transform.position - transform.position).normalized;
-    //            FighterRb.AddForce(direction * HitForce, ForceMode2D.Impulse);
-    //        }
-    //    }
-    //    Invoke(nameof(ResetHit), 0.3f); // Ajusta duraci�n seg�n tu animaci�n
-    //}
     private void ResetHit()
     {
         Animator FighterAnim = gameObject.GetComponent<Animator>();
@@ -203,7 +187,6 @@ public class PlayerController : MonoBehaviour
     }
 
     // Los Unity Events que son invocados cuando se pulsa el boton
-
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed && canJump && !IsFalling())
@@ -246,19 +229,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Respawnear jugador
+    public IEnumerator Respawn(float delay)
+    {
+        GetComponent<SpriteRenderer>().enabled = false;
+        yield return new WaitForSeconds(delay);
+        transform.position = respawnPosition;
+        GetComponent<SpriteRenderer>().enabled = true;
+    }
+
     // Colision en el suelo y destruir el jugador cuando toca el DeathPlane
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // Hacer que el jugador solo pueda saltar cuando toque el suelo
         if (collision.transform.tag == "floor" || IsFalling() == false)
         {
             canJump = true;
             gameObject.GetComponent<Animator>().SetBool("IsJumping", false);
         }
 
-        if (collision.transform.tag == "DeathPlane" && collision.transform.tag != "token")
+        // Manejar los death planes
+        if (collision.transform.tag == "DeathPlane")
         {
-            Destroy(gameObject);
-            Debug.Log("Jugador destruido");
+            Debug.Log("Jugador tocó el deathplane, respawneando");
+            StartCoroutine(Respawn(1f));
         }
     }
 
