@@ -62,6 +62,7 @@ MonoBehaviour:
   HitForce: 100
   ForcePushForce: 500
   movementInput: {x: 0, y: 0}
+  respawnPosition: {x: 0, y: 10, z: 0}
 --- !u!114 &2155380767412879458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,6 +243,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 78800b6a-a767-4d40-b944-46d7d4162fae
     m_ActionName: 'PlayerKeyboardAndController/ShieldDown[/DualShock4GamepadHID/rightShoulder,/Keyboard/numpad5,/Keyboard/x]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4038276044251600293}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 42eb89e5-ca4f-4e1e-929f-c246f548f23e
+    m_ActionName: 'PlayerKeyboardAndController/Pause[/DualShock4GamepadHID/start,/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: 36a98d348aea8c94c8155e8a64183713, type: 3}
+        m_TargetAssemblyTypeName: UnityEditor.MonoScript, UnityEditor.CoreModule
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 91fb74f5-f89d-49f1-91dd-cf4bb7f698ae
+    m_ActionName: 'UI/Pause[/Keyboard/escape,/DualShock4GamepadHID/start]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: PlayerKeyboardAndController

@@ -15,11 +15,16 @@ public class PlayerController : MonoBehaviour
     private InputAction attackAction;
     private InputAction jumpAction;
     private InputAction shieldAction;
+    private InputAction pauseAction;
+    private InputAction unpauseAction;
 
     // Variables para saltar y moverse
     public float MoveSpeed = 45f;
     public float JumpForce = 8000f;
     public float AirJumpForce = 25000f;
+
+    // Variables para pausar
+    private Pauser pauser;
 
     // Variable para las hitboxes
     public GameObject HitBox;
@@ -38,6 +43,18 @@ public class PlayerController : MonoBehaviour
     // Donde el jugador va a respawnear
     public Vector3 respawnPosition = new Vector3(0, 10, 0);
 
+    private void OnEnable()
+    {
+        // Suscribirse a la acción de pausa cuando el objeto se habilita
+        pauseAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        // Desuscribirse cuando el objeto se deshabilita
+        pauseAction.Disable();
+    }
+
     private void Awake()
     {
         // Mapear las acciones del action map a sus variables respectivas
@@ -45,6 +62,8 @@ public class PlayerController : MonoBehaviour
         jumpAction = InputSystem.actions.FindAction("Jump");
         shieldAction = InputSystem.actions.FindAction("Shield");
         attackAction = InputSystem.actions.FindAction("Attack");
+        pauseAction = InputSystem.actions.FindAction("PlayerKeyboardAndController/Pause");
+        unpauseAction = InputSystem.actions.FindAction("UI/Pause");
     }
 
     // Revisar si el jugador se est� cayendo
@@ -228,6 +247,16 @@ public class PlayerController : MonoBehaviour
             Debug.Log($"Mass: {gameObject.GetComponent<Rigidbody2D>().mass}");
         }
     }
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (pauser != null)
+            {
+                pauser.TogglePause(); // Llamamos al método TogglePause del PauseManager
+            }
+        }
+    }
 
     // Respawnear jugador
     public IEnumerator Respawn(float delay)
@@ -270,6 +299,22 @@ public class PlayerController : MonoBehaviour
         sr.sortingOrder = 10;
 
         shieldVisual.SetActive(false);
+        // Buscar el GameManager en la escena
+        GameObject scripter = GameObject.Find("Scripter");
+        if (scripter != null)
+        {
+            // Acceder al componente PauseManager en el GameManager
+            pauser = scripter.GetComponent<Pauser>();
+
+            if (pauser == null)
+            {
+                Debug.LogError("El GameManager no tiene un componente PauseManager.");
+            }
+        }
+        else
+        {
+            Debug.LogError("No se ha encontrado el GameManager en la escena.");
+        }
     }
 
     // Update
