@@ -1,38 +1,44 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerSpawner : MonoBehaviour
 {
     public GameObject Player;
+    public GameObject BSTTree;
     public Transform[] spawnPoints;
+    public Transform[] treeVisualizers;
     public float spawnPointRadius = 5;
+    public float treeVisualRadius = 75;
     private int playerCount = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        SceneManager.LoadSceneAsync("Trees", LoadSceneMode.Additive);
         int gamepadIndex = 0;
 
         // Spawnear primer jugador con teclado (si existe)
-        if (Keyboard.current != null)
+        if (Keyboard.current != null && playerCount < spawnPoints.Length && playerCount < treeVisualizers.Length)
         {
-            SpawnPlayer(Keyboard.current, spawnPoints[playerCount]);
+            SpawnPlayerWithTree(Keyboard.current);
         }
 
         // Spawnear jugadores por cada gamepad conectado
         foreach (var gamepad in Gamepad.all)
         {
-            if (spawnPoints.Length > playerCount)
+            if (playerCount < spawnPoints.Length && playerCount < treeVisualizers.Length)
             {
-                SpawnPlayer(gamepad, spawnPoints[playerCount]);
-                gamepadIndex++;
+                SpawnPlayerWithTree(gamepad);
             }
         }
     }
-    void SpawnPlayer(InputDevice device, Transform spawnPoint)
+    void SpawnPlayerWithTree(InputDevice device)
     {
+        Transform spawnPoint = spawnPoints[playerCount];
+        Transform treePosition = treeVisualizers[playerCount];
+
         GameObject newPlayer = Instantiate(Player, spawnPoint.position, Quaternion.identity);
 
-        // Vincular el input del jugador a su dispositivo
         var playerInput = newPlayer.GetComponent<PlayerInput>();
         if (playerInput != null)
         {
@@ -40,12 +46,14 @@ public class PlayerSpawner : MonoBehaviour
             playerInput.defaultControlScheme = device is Keyboard ? "Keyboard" : "Gamepad";
         }
 
-        // Asignar número de jugador al animador
         var animator = newPlayer.GetComponent<Animator>();
         if (animator != null)
         {
             animator.SetInteger("PlayerNum", playerCount);
         }
+
+        // Instanciar árbol correspondiente
+        GameObject playerTree = Instantiate(BSTTree, treePosition.position, Quaternion.identity);
 
         playerCount++;
     }
@@ -56,6 +64,10 @@ public class PlayerSpawner : MonoBehaviour
         foreach (Transform SpawnPoint in spawnPoints)
         {
             Gizmos.DrawWireSphere(SpawnPoint.position, spawnPointRadius);
+        }
+        foreach (Transform TreeVisualizer in treeVisualizers)
+        {
+            Gizmos.DrawWireSphere(TreeVisualizer.position, treeVisualRadius);
         }
     }
 }
