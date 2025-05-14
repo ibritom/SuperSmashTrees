@@ -21,7 +21,7 @@ public class TokenSpawner : MonoBehaviour
             token.GetComponent<TokenController>().numeroToken = numeroToken;
             var animator = token.GetComponent<Animator>();
             animator.SetInteger("TokenValue", numeroToken);
-            Debug.LogWarning("Valor del token:" + numeroToken);
+            Debug.Log("Valor del token:" + numeroToken);
         }
     }
 }

@@ -1,14 +1,30 @@
-using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)]
 public class Challenger : MonoBehaviour
 {
+    public static Challenger Instance;
+
     public int ChallengeType;
     public int ChallengeNumber;
     public int WantedDepth;
 
     public TextMeshProUGUI ChallengeUIText;
+
+    void Awake()
+    {
+        // Singleton pattern
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,7 +36,8 @@ public class Challenger : MonoBehaviour
     {
         //ChallengeType = Random.Range(0, 1); // 0 = BST, 1 = AVL
         ChallengeType = 0;  // Voy a forzar BST hasta que AVL este implementado
-        ChallengeNumber = Random.Range(0, 1);
+        ChallengeNumber = Random.Range(0, 2);
+        Debug.Log("ChallengeNumber:" + ChallengeNumber);
         if (ChallengeType == 0)
         {
             // Hacer challenges del BST
@@ -44,5 +61,6 @@ public class Challenger : MonoBehaviour
                 // Challenge 2
             }
         }
+        Debug.Log("Challenger configurado: WantedDepth = " + WantedDepth);
     }
 }

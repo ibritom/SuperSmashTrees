@@ -319,7 +319,6 @@ public class PlayerController : MonoBehaviour
     // Start
     void Start()
     {
-        Debug.Log("Soy " + name + ", assignedBST: " + (assignedBST != null ? assignedBST.name : "null"));
         shieldVisual = new GameObject("ShieldVisual");
         shieldVisual.transform.SetParent(transform);
         shieldVisual.transform.localPosition = Vector3.zero;
