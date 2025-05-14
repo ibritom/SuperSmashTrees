@@ -33,6 +33,7 @@ public class TokenController : MonoBehaviour
                 if (CurrentDepth == Challenger.Instance.WantedDepth)
                 {
                     Debug.Log(player.name + "ha completado un reto.");
+                    ScoreManager.Instance.AddPointToPlayer(player.gameObject);
                 }
             }
             else

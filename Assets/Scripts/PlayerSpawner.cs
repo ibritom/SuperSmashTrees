@@ -67,9 +67,6 @@ public class PlayerSpawner : MonoBehaviour
             animator.SetInteger("PlayerNum", playerCount);
         }
 
-        // Instanciar árbol correspondiente
-        //GameObject playerTree = Instantiate(BSTTree, treePosition.position, Quaternion.identity);
-
         playerCount++;
     }
 
