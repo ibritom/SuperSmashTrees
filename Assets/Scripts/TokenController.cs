@@ -24,7 +24,6 @@ public class TokenController : MonoBehaviour
         var player = collision.GetComponentInParent<PlayerController>();
         if (player != null)
         {
-
             if (player.assignedBST != null)
             {
                 player.assignedBST.insert(TokenValue);

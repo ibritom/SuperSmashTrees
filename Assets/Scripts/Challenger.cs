@@ -9,6 +9,7 @@ public class Challenger : MonoBehaviour
     public int ChallengeType;
     public int ChallengeNumber;
     public int WantedDepth;
+    public int WantedBalance;
 
     public TextMeshProUGUI ChallengeUIText;
 
@@ -34,7 +35,7 @@ public class Challenger : MonoBehaviour
 
     public void CreateChallenge()
     {
-        //ChallengeType = Random.Range(0, 1); // 0 = BST, 1 = AVL
+        //ChallengeType = Random.Range(0, 2); // 0 = BST, 1 = AVL
         ChallengeType = 0;  // Voy a forzar BST hasta que AVL este implementado
         ChallengeNumber = Random.Range(0, 2);
         Debug.Log("ChallengeNumber:" + ChallengeNumber);
@@ -56,9 +57,15 @@ public class Challenger : MonoBehaviour
             if (ChallengeNumber == 0)
             {
                 // Challenge 1
+                WantedDepth = 3;
+                WantedBalance = 0;
+                ChallengeUIText.text = string.Format("RETO: Hacer un árbol AVL de profundidad 3 mínimo con balanceo 0");
             }
             else {
                 // Challenge 2
+                WantedDepth = 3;
+                WantedBalance = 1;
+                ChallengeUIText.text = string.Format("RETO: Hacer un árbol AVL de profundidad 3 mínimo con balanceo 1");
             }
         }
         Debug.Log("Challenger configurado: WantedDepth = " + WantedDepth);

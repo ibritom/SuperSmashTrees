@@ -12,7 +12,7 @@ public class TokenSpawner : MonoBehaviour
         if (timer >= 2f)
         {
             timer = 0;
-            numeroToken = Random.Range(0, 9);
+            numeroToken = Random.Range(0, 10);
             tokenPrefab.GetComponent<TokenController>().TokenValue = numeroToken;
             float x = Random.Range(-52f, 50f);
             Vector3 position = new Vector3(x, 32, 0);
