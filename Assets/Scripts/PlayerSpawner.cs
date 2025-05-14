@@ -9,12 +9,11 @@ public class PlayerSpawner : MonoBehaviour
     public Transform[] spawnPoints;
     public Transform[] treeVisualizers;
     public float spawnPointRadius = 5;
-    public float treeVisualRadius = 75;
+    public float treeVisualRadius = 5;
     private int playerCount = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        SceneManager.LoadSceneAsync("Trees", LoadSceneMode.Additive);
         int gamepadIndex = 0;
 
         // Spawnear primer jugador con teclado (si existe)
@@ -38,6 +37,22 @@ public class PlayerSpawner : MonoBehaviour
         Transform treePosition = treeVisualizers[playerCount];
 
         GameObject newPlayer = Instantiate(Player, spawnPoint.position, Quaternion.identity);
+        GameObject newBST = Instantiate(BSTTree, treePosition.position, Quaternion.identity);
+        ScoreManager.Instance.AddPlayer(newPlayer);
+
+        // Asignar árbol al jugador
+        PlayerController playerController = newPlayer.GetComponent<PlayerController>();
+        BSTController bstController = newBST.GetComponent<BSTController>();
+
+        if (playerController != null && bstController != null)
+        {
+            playerController.assignedBST = bstController;
+            Debug.LogWarning("Asignando árbol al jugador " + playerController.name + ": " + bstController.name);
+        }
+        else
+        {
+            Debug.LogWarning("No se pudo asignar el árbol: faltan componentes.");
+        }
 
         var playerInput = newPlayer.GetComponent<PlayerInput>();
         if (playerInput != null)
@@ -53,7 +68,7 @@ public class PlayerSpawner : MonoBehaviour
         }
 
         // Instanciar árbol correspondiente
-        GameObject playerTree = Instantiate(BSTTree, treePosition.position, Quaternion.identity);
+        //GameObject playerTree = Instantiate(BSTTree, treePosition.position, Quaternion.identity);
 
         playerCount++;
     }

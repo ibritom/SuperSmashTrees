@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     bool canJump = false;
 
+    // Arbol
+    public BSTController assignedBST;
     // Variabe que da accesso a todas las acciones en InputAction
     public InputActionAsset InputActions;
 
@@ -43,6 +45,8 @@ public class PlayerController : MonoBehaviour
     // Donde el jugador va a respawnear
     public Vector3 respawnPosition = new Vector3(0, 10, 0);
 
+    // Score
+    [HideInInspector] public GameObject lastAttacker;
     private void OnEnable()
     {
         // Suscribirse a la acción de pausa cuando el objeto se habilita
@@ -123,27 +127,33 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Hit Fighter");
             Rigidbody2D FighterRb = FighterGameObject.GetComponent<Rigidbody2D>();
             Animator FighterAnim = FighterGameObject.GetComponent<Animator>();
-    
+
+            PlayerController victimController = FighterGameObject.GetComponent<PlayerController>();
+            if (victimController != null)
+            {
+                victimController.OnHitBy(this.gameObject);
+                Debug.Log($"{gameObject.name} golpeó a {FighterGameObject.name}");
+            }
+
             if (FighterRb != null)
             {
                 Vector2 direction = (FighterGameObject.transform.position - transform.position).normalized;
                 FighterRb.AddForce(direction * HitForce, ForceMode2D.Impulse);
-           }
+            }
             if (FighterAnim != null)
             {
                 FighterAnim.SetBool("IsHurt", true);
-                // Opcional: reiniciar el bool después de cierto tiempo
                 StartCoroutine(ResetHurt(FighterAnim, 0.3f));
             }
         }
-        Invoke(nameof(ResetHit), 0.3f); // Ajusta duraci�n seg�n tu animaci�n
+        Invoke(nameof(ResetHit), 0.3f);
     }
     private void ResetHit()
     {
         Animator FighterAnim = gameObject.GetComponent<Animator>();
         hasHit = false;
     }
-    private System.Collections.IEnumerator ResetHurt(Animator anim, float delay)
+    private IEnumerator ResetHurt(Animator anim, float delay)
     {
         yield return new WaitForSeconds(delay);
         anim.SetBool("IsHurt", false);
@@ -152,6 +162,12 @@ public class PlayerController : MonoBehaviour
     public void EndAttackAnim()
     {
         gameObject.GetComponent<Animator>().SetBool("IsAttacking", false);
+    }
+
+    // Registrar el atacante mas reciente
+    void OnHitBy(GameObject attacker)
+    {
+        lastAttacker = attacker;
     }
 
     // Renderizar la hitbox para poder verlo en el editor
@@ -184,14 +200,21 @@ public class PlayerController : MonoBehaviour
     // Funcion para el ForcePush, todavía no he implemendado hacerlo un movimiento especial
     public void ForcePush()
     {
-        if (hasHit) return; // evita m�ltiples golpes
+        if (hasHit) return;
         hasHit = true;
         Debug.Log("Attacking");
         gameObject.GetComponent<Animator>().SetBool("IsAttacking", true);
         Collider2D[] fighters = Physics2D.OverlapCircleAll(HitBox.transform.position, HitBoxRadius, Fighters);
         foreach (Collider2D FighterGameObject in fighters)
         {
-            if (FighterGameObject.gameObject == this.gameObject) continue; // Evitar pegarse con uno mismo
+            PlayerController victimController = FighterGameObject.GetComponent<PlayerController>();
+            if (victimController != null)
+            {
+                victimController.OnHitBy(this.gameObject);
+                Debug.Log($"{gameObject.name} golpeó a {FighterGameObject.name}");
+            }
+
+            if (FighterGameObject.gameObject == this.gameObject) continue;
             Debug.Log("Hit Fighter");
             Rigidbody2D FighterRb = FighterGameObject.GetComponent<Rigidbody2D>();
 
@@ -280,6 +303,14 @@ public class PlayerController : MonoBehaviour
         // Manejar los death planes
         if (collision.transform.tag == "DeathPlane")
         {
+            if (lastAttacker != null)
+            {
+                ScoreManager.Instance.AddPointToPlayer(lastAttacker);
+            }
+            else
+            {
+                Debug.Log("El jugador murió sin atacante.");
+            }
             Debug.Log("Jugador tocó el deathplane, respawneando");
             StartCoroutine(Respawn(1f));
         }
@@ -288,6 +319,7 @@ public class PlayerController : MonoBehaviour
     // Start
     void Start()
     {
+        Debug.Log("Soy " + name + ", assignedBST: " + (assignedBST != null ? assignedBST.name : "null"));
         shieldVisual = new GameObject("ShieldVisual");
         shieldVisual.transform.SetParent(transform);
         shieldVisual.transform.localPosition = Vector3.zero;

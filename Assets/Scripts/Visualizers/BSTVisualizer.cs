@@ -22,8 +22,8 @@ public class BSTVisualizer : MonoBehaviour
 
         float startX = 0f; // Coordenada inicial horizontal
         float startY = 0f; // Coordenada inicial vertical
-        float horizontalSpacing = 20f; // Separación horizontal entre nodos
-        float verticalSpacing = 24f;   // Separación vertical entre niveles
+        float horizontalSpacing = 15f; // Separación horizontal entre nodos
+        float verticalSpacing = 18f;   // Separación vertical entre niveles
 
         DrawRecursive(root, startX, startY, horizontalSpacing, verticalSpacing);
     }
