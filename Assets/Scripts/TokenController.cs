@@ -34,6 +34,7 @@ public class TokenController : MonoBehaviour
                 {
                     Debug.Log(player.name + "ha completado un reto.");
                     ScoreManager.Instance.AddPointToPlayer(player.gameObject);
+                    player.IncrementChallengeCount();
                 }
             }
             else

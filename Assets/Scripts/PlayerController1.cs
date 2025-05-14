@@ -47,6 +47,9 @@ public class PlayerController : MonoBehaviour
 
     // Score
     [HideInInspector] public GameObject lastAttacker;
+
+    // Cantidad de retos completados
+    public int CompletedChallenges;
     private void OnEnable()
     {
         // Suscribirse a la acción de pausa cuando el objeto se habilita
@@ -258,8 +261,12 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            ShieldUp();
-            Debug.Log($"Mass: {gameObject.GetComponent<Rigidbody2D>().mass}");
+            Debug.Log("Retos completados:" + CompletedChallenges);
+            if (CompletedChallenges >= 1)
+            {
+                ShieldUp();
+                Debug.Log($"Mass: {gameObject.GetComponent<Rigidbody2D>().mass}");
+            }
         }
     }
     public void OnShieldDown(InputAction.CallbackContext context)
@@ -279,6 +286,13 @@ public class PlayerController : MonoBehaviour
                 pauser.TogglePause(); // Llamamos al método TogglePause del PauseManager
             }
         }
+    }
+
+    // Funcion llamada cuando se completa un reto
+    public void IncrementChallengeCount()
+    {
+        CompletedChallenges++;
+        Debug.Log("Retos completados por " + gameObject.name + ": " + CompletedChallenges);
     }
 
     // Respawnear jugador
@@ -319,6 +333,8 @@ public class PlayerController : MonoBehaviour
     // Start
     void Start()
     {
+        CompletedChallenges = 0;
+
         shieldVisual = new GameObject("ShieldVisual");
         shieldVisual.transform.SetParent(transform);
         shieldVisual.transform.localPosition = Vector3.zero;

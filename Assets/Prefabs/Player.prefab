@@ -64,6 +64,8 @@ MonoBehaviour:
   ForcePushForce: 500
   movementInput: {x: 0, y: 0}
   respawnPosition: {x: 0, y: 10, z: 0}
+  lastAttacker: {fileID: 0}
+  CompletedChallenges: 99
 --- !u!114 &2155380767412879458
 MonoBehaviour:
   m_ObjectHideFlags: 0
