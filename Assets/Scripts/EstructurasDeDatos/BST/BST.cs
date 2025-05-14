@@ -46,4 +46,5 @@ public class BST
 
         return 1 + Mathf.Max(leftDepth, rightDepth);
     }
+    public void Clear() { root = null; }
 }

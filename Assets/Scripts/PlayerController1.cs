@@ -5,7 +5,7 @@ using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour
 {
-    bool canJump = false;
+    public bool canJump = false;
 
     // Arbol
     public BSTController assignedBST;
@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     // Variables para saltar y moverse
     public float MoveSpeed = 45f;
     public float JumpForce = 8000f;
-    public float AirJumpForce = 25000f;
+    public float AirJumpForce = 250000f;
 
     // Variables para pausar
     private Pauser pauser;
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Revisar si el jugador se est� cayendo
-    bool IsFalling()
+    public bool IsFalling()
     {
         return GetComponent<Rigidbody2D>().linearVelocity.y < -0.1f;
     }
@@ -180,7 +180,30 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(HitBox.transform.position, HitBoxRadius);
     }
 
-    // Funciones para el shield, todav�a no he implementado hacerlo un movimiento especial
+    // Manejar si se puede hacer el ForcePush y el AirJump
+    public void AttackManager()
+    {
+        if (CompletedChallenges >= 3)
+        {
+            ForcePush();
+        } else
+        {
+            Attack();
+        }
+    }
+    public void JumpManager()
+    {
+        if (IsFalling() && CompletedChallenges >= 2)
+        {
+            AirJump();
+        }
+        else if (canJump)
+        {
+            Jump();
+        }
+    }
+
+    // Funciones para el shield
     public void ShieldUp()
     {
         gameObject.GetComponent<Rigidbody2D>().mass = 100f;
@@ -194,14 +217,15 @@ public class PlayerController : MonoBehaviour
         canJump = true;
     }
 
-    // Funci�n para al AirJump, todav�a no he implementado hacerlo un movimiento especial
+    // Funci�n para al AirJump
     public void AirJump()
     {
         canJump = false;
+        GetComponent<Rigidbody2D>().linearVelocity = new Vector2(GetComponent<Rigidbody2D>().linearVelocity.x, 0f);
         GetComponent<Rigidbody2D>().AddForce(new Vector2(0, AirJumpForce));
     }
 
-    // Funcion para el ForcePush, todavía no he implemendado hacerlo un movimiento especial
+    // Funcion para el ForcePush
     public void ForcePush()
     {
         if (hasHit) return;
@@ -235,9 +259,8 @@ public class PlayerController : MonoBehaviour
     // Los Unity Events que son invocados cuando se pulsa el boton
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed && canJump && !IsFalling())
+        if (context.performed && canJump)
         {
-            Debug.Log("Jumping");
             gameObject.GetComponent<Animator>().SetBool("IsJumping", true);
         }
     }
@@ -368,13 +391,15 @@ public class PlayerController : MonoBehaviour
     // Update
     private void Update()
     {
-        IsFalling();
-        CheckFallingNoJump();
+        //IsFalling();
+        //CheckFallingNoJump();
     }
 
     // Necesario para moverse
     private void FixedUpdate()
     {
+        IsFalling();
+        CheckFallingNoJump();
         Move();
     }
 }

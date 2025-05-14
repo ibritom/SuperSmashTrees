@@ -22,4 +22,9 @@ public class AVLController : MonoBehaviour
     {
         return tree.GetHeight(tree.root);
     }
+
+    public int getBalance()
+    {
+        return tree.GetBalance(tree.root);
+    }
 }

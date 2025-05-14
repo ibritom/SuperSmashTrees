@@ -54,7 +54,7 @@ public class AVLTree
         return node != null ? node.height : 0;
     }
 
-    private int GetBalance(AVLTreeNode node)
+    public int GetBalance(AVLTreeNode node)
     {
         return node != null ? GetHeight(node.Left) - GetHeight(node.Right) : 0;
     }
@@ -85,5 +85,9 @@ public class AVLTree
         UpdateHeight(y);
 
         return y;
+    }
+    public void Clear()
+    {
+        root = null;
     }
 }

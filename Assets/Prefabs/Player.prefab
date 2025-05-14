@@ -50,11 +50,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4910b570010d71c45a316559a4e49a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canJump: 0
   assignedBST: {fileID: 3541275161395047292, guid: 5567dbed7332f934ea4b4766ff78e1d0, type: 3}
+  assignedAVL: {fileID: 0}
   InputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   MoveSpeed: 45
   JumpForce: 8000
-  AirJumpForce: 25000
+  AirJumpForce: 20000
   HitBox: {fileID: 8051654454174753439}
   HitBoxRadius: 1
   Fighters:

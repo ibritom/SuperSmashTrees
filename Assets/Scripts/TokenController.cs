@@ -5,6 +5,7 @@ public class TokenController : MonoBehaviour
     public int numeroToken;
     public int TokenValue;
     public int CurrentDepth;
+    public int CurrentBalance;
     void Start()
     {
         if (Challenger.Instance != null)
@@ -34,6 +35,7 @@ public class TokenController : MonoBehaviour
                         Debug.Log(player.name + "ha completado un reto.");
                         ScoreManager.Instance.AddPointToPlayer(player.gameObject);
                         player.IncrementChallengeCount();
+                        player.assignedBST.tree.Clear();
                     }
                 }
                 else
@@ -46,11 +48,13 @@ public class TokenController : MonoBehaviour
                     player.assignedAVL.insert(TokenValue);
                     Debug.Log("Token recogido. Insertado valor: " + TokenValue);
                     CurrentDepth = player.assignedAVL.getHeight();
-                    if (CurrentDepth == Challenger.Instance.WantedDepth)
+                    CurrentBalance = player.assignedAVL.getBalance();
+                    if (CurrentDepth == Challenger.Instance.WantedDepth && CurrentBalance == Challenger.Instance.WantedBalance)
                     {
                         Debug.Log(player.name + "ha completado un reto.");
                         ScoreManager.Instance.AddPointToPlayer(player.gameObject);
                         player.IncrementChallengeCount();
+                        player.assignedAVL.tree.Clear();
                     }
                 }
                 else
