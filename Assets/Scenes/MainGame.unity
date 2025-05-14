@@ -1283,6 +1283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 4296997611851002460, guid: d67ed91fc4cd76a4f82a12215d8de204, type: 3}
   BSTTree: {fileID: 409295843626385503, guid: 5567dbed7332f934ea4b4766ff78e1d0, type: 3}
+  AVLTree: {fileID: 409295843626385503, guid: 80fd30280f8c44b4c9e0e801d1d3fb96, type: 3}
   spawnPoints:
   - {fileID: 1716775764}
   - {fileID: 1459902467}
@@ -1324,7 +1325,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numeroToken: 0
   TokenValue: 0
-  WantedDepth: 0
   CurrentDepth: 0
 --- !u!114 &1486700419
 MonoBehaviour:
@@ -1345,7 +1345,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1486700414}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9247d1e02a4841e0a4ed454bc3d118c, type: 3}
   m_Name: 
@@ -1393,6 +1393,7 @@ MonoBehaviour:
   ChallengeType: 0
   ChallengeNumber: 0
   WantedDepth: 0
+  WantedBalance: 0
   ChallengeUIText: {fileID: 312145789}
 --- !u!1 &1614873940
 GameObject:

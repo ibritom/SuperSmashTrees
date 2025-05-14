@@ -36,7 +36,7 @@ public class Challenger : MonoBehaviour
     public void CreateChallenge()
     {
         //ChallengeType = Random.Range(0, 2); // 0 = BST, 1 = AVL
-        ChallengeType = 0;  // Voy a forzar BST hasta que AVL este implementado
+        ChallengeType = 1;  // Voy a forzar AVL
         ChallengeNumber = Random.Range(0, 2);
         Debug.Log("ChallengeNumber:" + ChallengeNumber);
         if (ChallengeType == 0)

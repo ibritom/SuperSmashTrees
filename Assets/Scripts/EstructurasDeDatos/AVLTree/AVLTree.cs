@@ -4,9 +4,9 @@ public class AVLTree
 {
     public AVLTreeNode root;
 
-    public void Insert(int value)
+    public void Insert(int Value)
     {
-        root = Insert(root, value);
+        root = Insert(root, Value);
     }
 
     private AVLTreeNode Insert(AVLTreeNode node, int value)
@@ -14,10 +14,10 @@ public class AVLTree
         if (node == null)
             return new AVLTreeNode(value);
 
-        if (value < node.value)
-            node.left = Insert(node.left, value);
-        else if (value > node.value)
-            node.right = Insert(node.right, value);
+        if (value < node.Value)
+            node.Left = Insert(node.Left, value);
+        else if (value > node.Value)
+            node.Right = Insert(node.Right, value);
         else
             return node; // No duplicados
 
@@ -26,18 +26,18 @@ public class AVLTree
         int balance = GetBalance(node);
 
         // Rotaciones
-        if (balance > 1 && value < node.left.value)
+        if (balance > 1 && value < node.Left.Value)
             return RotateRight(node); // LL
-        if (balance < -1 && value > node.right.value)
+        if (balance < -1 && value > node.Right.Value)
             return RotateLeft(node); // RR
-        if (balance > 1 && value > node.left.value)
+        if (balance > 1 && value > node.Left.Value)
         {
-            node.left = RotateLeft(node.left); // LR
+            node.Left = RotateLeft(node.Left); // LR
             return RotateRight(node);
         }
-        if (balance < -1 && value < node.right.value)
+        if (balance < -1 && value < node.Right.Value)
         {
-            node.right = RotateRight(node.right); // RL
+            node.Right = RotateRight(node.Right); // RL
             return RotateLeft(node);
         }
 
@@ -46,26 +46,26 @@ public class AVLTree
 
     private void UpdateHeight(AVLTreeNode node)
     {
-        node.height = 1 + Mathf.Max(GetHeight(node.left), GetHeight(node.right));
+        node.height = 1 + Mathf.Max(GetHeight(node.Left), GetHeight(node.Right));
     }
 
-    private int GetHeight(AVLTreeNode node)
+    public int GetHeight(AVLTreeNode node)
     {
         return node != null ? node.height : 0;
     }
 
     private int GetBalance(AVLTreeNode node)
     {
-        return node != null ? GetHeight(node.left) - GetHeight(node.right) : 0;
+        return node != null ? GetHeight(node.Left) - GetHeight(node.Right) : 0;
     }
 
     private AVLTreeNode RotateRight(AVLTreeNode y)
     {
-        AVLTreeNode x = y.left;
-        AVLTreeNode T2 = x.right;
+        AVLTreeNode x = y.Left;
+        AVLTreeNode T2 = x.Right;
 
-        x.right = y;
-        y.left = T2;
+        x.Right = y;
+        y.Left = T2;
 
         UpdateHeight(y);
         UpdateHeight(x);
@@ -75,11 +75,11 @@ public class AVLTree
 
     private AVLTreeNode RotateLeft(AVLTreeNode x)
     {
-        AVLTreeNode y = x.right;
-        AVLTreeNode T2 = y.left;
+        AVLTreeNode y = x.Right;
+        AVLTreeNode T2 = y.Left;
 
-        y.left = x;
-        x.right = T2;
+        y.Left = x;
+        x.Right = T2;
 
         UpdateHeight(x);
         UpdateHeight(y);

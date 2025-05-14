@@ -4,11 +4,9 @@ public class TokenController : MonoBehaviour
 {
     public int numeroToken;
     public int TokenValue;
-    public int WantedDepth;
     public int CurrentDepth;
     void Start()
     {
-        int WantedDepth = Challenger.Instance.WantedDepth;
         if (Challenger.Instance != null)
         {
             Debug.Log("Desde TokenController: WantedDepth = " + Challenger.Instance.WantedDepth);
@@ -24,24 +22,43 @@ public class TokenController : MonoBehaviour
         var player = collision.GetComponentInParent<PlayerController>();
         if (player != null)
         {
-            if (player.assignedBST != null)
+            if (Challenger.Instance.ChallengeType == 0)
             {
-                player.assignedBST.insert(TokenValue);
-                Debug.Log("Token recogido. Insertado valor: " + TokenValue);
-                CurrentDepth = player.assignedBST.depth();
-                if (CurrentDepth == Challenger.Instance.WantedDepth)
+                if (player.assignedBST != null)
                 {
-                    Debug.Log(player.name + "ha completado un reto.");
-                    ScoreManager.Instance.AddPointToPlayer(player.gameObject);
-                    player.IncrementChallengeCount();
+                    player.assignedBST.insert(TokenValue);
+                    Debug.Log("Token recogido. Insertado valor: " + TokenValue);
+                    CurrentDepth = player.assignedBST.depth();
+                    if (CurrentDepth == Challenger.Instance.WantedDepth)
+                    {
+                        Debug.Log(player.name + "ha completado un reto.");
+                        ScoreManager.Instance.AddPointToPlayer(player.gameObject);
+                        player.IncrementChallengeCount();
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Jugador no tiene un árbol binario adjunto.");
+                }
+            } else {
+                if (player.assignedAVL != null)
+                {
+                    player.assignedAVL.insert(TokenValue);
+                    Debug.Log("Token recogido. Insertado valor: " + TokenValue);
+                    CurrentDepth = player.assignedAVL.getHeight();
+                    if (CurrentDepth == Challenger.Instance.WantedDepth)
+                    {
+                        Debug.Log(player.name + "ha completado un reto.");
+                        ScoreManager.Instance.AddPointToPlayer(player.gameObject);
+                        player.IncrementChallengeCount();
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Jugador no tiene un árbol binario adjunto.");
                 }
             }
-            else
-            {
-                Debug.LogWarning("Jugador no tiene un árbol binario adjunto.");
-            }
         }
-
         Destroy(gameObject);
     }
 }

@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     // Arbol
     public BSTController assignedBST;
+    public AVLController assignedAVL;
     // Variabe que da accesso a todas las acciones en InputAction
     public InputActionAsset InputActions;
 

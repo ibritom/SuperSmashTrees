@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class AVLTreeNode
 {
-    public int value;
+    public int Value;
     public int height;
-    public AVLTreeNode left;
-    public AVLTreeNode right;
+    public AVLTreeNode Left;
+    public AVLTreeNode Right;
 
     public AVLTreeNode(int value)
     {
-        this.value = value;
+        this.Value = value;
         height = 1;
     }
 }
