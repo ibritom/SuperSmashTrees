@@ -16,5 +16,9 @@ public class BSTController : MonoBehaviour
         tree.Insert(value);
         visualizer.Visualize(tree.GetRoot());
     }
+    public void depth()
+    {
+        tree.GetDepth();
+    }
 }
 

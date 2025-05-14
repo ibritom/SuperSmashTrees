@@ -13,7 +13,6 @@ public class AVLTester : MonoBehaviour
         }
 
         Debug.Log("Árbol AVL creado con inserciones.");
-        // Aquí puedes usar tu lógica de visualización ya hecha para el BST adaptada al AVL.
     }
 }
 
