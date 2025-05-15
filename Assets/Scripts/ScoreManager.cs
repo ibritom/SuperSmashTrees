@@ -32,7 +32,7 @@ public class ScoreManager : MonoBehaviour
         if (playerScores.ContainsKey(player))
         {
             playerScores[player]++;
-            Debug.LogWarning($"Punto para {player.name}! Total: {playerScores[player]}");
+            Debug.Log($"Punto para {player.name}! Total: {playerScores[player]}");
         }
         else
         {
@@ -43,5 +43,16 @@ public class ScoreManager : MonoBehaviour
     public int GetScore(GameObject player)
     {
         return playerScores.TryGetValue(player, out int score) ? score : 0;
+    }
+
+    public void SaveAllScoresToPrefs(List<GameObject> players)
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            GameObject player = players[i];
+            int score = GetScore(player);
+            PlayerPrefs.SetInt($"PlayerScore_{i}", score);
+        }
+        PlayerPrefs.Save();
     }
 }

@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 1614873941}
-  remainingTime: 180
+  remainingTime: 10
 --- !u!114 &27549290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1296,6 +1296,7 @@ MonoBehaviour:
   - {fileID: 1155190366}
   spawnPointRadius: 5
   treeVisualRadius: 5
+  players: []
 --- !u!4 &1486700416
 Transform:
   m_ObjectHideFlags: 0

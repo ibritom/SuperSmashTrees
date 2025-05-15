@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -12,6 +13,8 @@ public class PlayerSpawner : MonoBehaviour
     public float spawnPointRadius = 5;
     public float treeVisualRadius = 5;
     private int playerCount = 0;
+
+    public List<GameObject> players = new List<GameObject>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,6 +44,7 @@ public class PlayerSpawner : MonoBehaviour
             GameObject newPlayer = Instantiate(Player, spawnPoint.position, Quaternion.identity);
             GameObject newBST = Instantiate(BSTTree, treePosition.position, Quaternion.identity);
             ScoreManager.Instance.AddPlayer(newPlayer);
+            players.Add(newPlayer);
 
             // Asignar árbol al jugador
             PlayerController playerController = newPlayer.GetComponent<PlayerController>();
@@ -73,6 +77,7 @@ public class PlayerSpawner : MonoBehaviour
             GameObject newPlayer = Instantiate(Player, spawnPoint.position, Quaternion.identity);
             GameObject newAVL = Instantiate(AVLTree, treePosition.position, Quaternion.identity);
             ScoreManager.Instance.AddPlayer(newPlayer);
+            players.Add(newPlayer);
 
             // Asignar árbol al jugador
             PlayerController playerController = newPlayer.GetComponent<PlayerController>();
