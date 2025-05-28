@@ -35,8 +35,8 @@ public class Challenger : MonoBehaviour
 
     public void CreateChallenge()
     {
-        ChallengeType = Random.Range(0, 2); // 0 = BST, 1 = AVL
-        //ChallengeType = 1;  // Voy a forzar AVL
+        //ChallengeType = Random.Range(0, 2); // 0 = BST, 1 = AVL
+        ChallengeType = 0;  // Voy a forzar AVL
         ChallengeNumber = Random.Range(0, 2);
         Debug.Log("ChallengeNumber:" + ChallengeNumber);
         if (ChallengeType == 0)
@@ -46,11 +46,11 @@ public class Challenger : MonoBehaviour
             {
                 // Challenge 1
                 WantedDepth = 2;
-                ChallengeUIText.text = string.Format("RETO: Hacer un árbol BST de profundidad 2");
+                ChallengeUIText.text = string.Format("RETO: Hacer un ï¿½rbol BST de profundidad 2");
             } else {
                 // Challenge 2
                 WantedDepth = 4;
-                ChallengeUIText.text = string.Format("RETO: Hacer un árbol BST de profundidad 4");
+                ChallengeUIText.text = string.Format("RETO: Hacer un ï¿½rbol BST de profundidad 4");
             }
         } else {
             // Hacer challenges del AVL
@@ -59,13 +59,13 @@ public class Challenger : MonoBehaviour
                 // Challenge 1
                 WantedDepth = 3;
                 WantedBalance = 0;
-                ChallengeUIText.text = string.Format("RETO: Hacer un árbol AVL de profundidad 3 mínimo con balanceo 0");
+                ChallengeUIText.text = string.Format("RETO: Hacer un ï¿½rbol AVL de profundidad 3 mï¿½nimo con balanceo 0");
             }
             else {
                 // Challenge 2
                 WantedDepth = 3;
                 WantedBalance = 1;
-                ChallengeUIText.text = string.Format("RETO: Hacer un árbol AVL de profundidad 3 mínimo con balanceo 1");
+                ChallengeUIText.text = string.Format("RETO: Hacer un ï¿½rbol AVL de profundidad 3 mï¿½nimo con balanceo 1");
             }
         }
         Debug.Log("Challenger configurado: WantedDepth = " + WantedDepth);

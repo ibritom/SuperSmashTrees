@@ -6,6 +6,7 @@ public class TokenController : MonoBehaviour
     public int TokenValue;
     public int CurrentDepth;
     public int CurrentBalance;
+    private bool _collected = false;
     void Start()
     {
         if (Challenger.Instance != null)
@@ -20,6 +21,8 @@ public class TokenController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (_collected) return;
+        _collected = true;
         var player = collision.GetComponentInParent<PlayerController>();
         if (player != null)
         {
