@@ -9,6 +9,13 @@ public class Verifier : MonoBehaviour
     public GameObject Prompt;
     public GameObject Warning;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Application.Quit();
+        }
+    }
     public void LoadMainGame()
     {
         if (Gamepad.all.Count > 0)

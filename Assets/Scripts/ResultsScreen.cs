@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ResultsScreen : MonoBehaviour
 {
@@ -50,6 +51,11 @@ public class ResultsScreen : MonoBehaviour
         {
             Debug.LogError("Error en ResultsScreen.Start(): " + e.Message + "\n" + e.StackTrace);
         }
+    }
+
+    private void Update()
+    {
+        BackToStartScreen();
     }
 
     public void UpdateText()
@@ -139,5 +145,16 @@ public class ResultsScreen : MonoBehaviour
             3 => "Yuyuko Saigyoji",
             _ => $"Jugador {index + 1}"
         };
+    }
+    public void BackToStartScreen()
+    {
+        if (Input.GetKeyDown(KeyCode.Return)) 
+        {
+            SceneManager.LoadScene("TitleScreen");
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Application.Quit();
+        }
     }
 }
